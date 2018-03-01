@@ -1,0 +1,29 @@
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+group 'com.xyzz.gsdd'
+version '1.0-SNAPSHOT'
+dependencies {
+    compile 'org.scala-lang:scala-library:2.12.4'
+    compile 'io.gatling:gatling-app:2.3.0'
+    compile 'io.gatling.highcharts:gatling-charts-highcharts:2.3.0'
+}
+
+task loadTest(type: JavaExec) {
+    description = 'Run gatling tests'
+    new File("${buildDir}/reports/gatling").mkdirs()
+
+    systemProperties System.getProperties()
+
+    classpath = sourceSets.test.runtimeClasspath + configurations.testCompile + configurations.compile
+
+    main = "io.gatling.app.Gatling"
+    args = ['-s', 'BootLoadSimulation',             // -- simulation
+//            '-sf', 'test/resources',                // --
+//            '-df', 'test/resources',
+            '-rf', "${buildDir}/reports/gatling"    //-- results-folder
+    ]
+}
