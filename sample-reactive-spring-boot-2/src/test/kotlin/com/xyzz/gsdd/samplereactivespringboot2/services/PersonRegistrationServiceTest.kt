@@ -1,4 +1,4 @@
-package com.xyzz.gsdd.samplespringboot2.services
+package com.xyzz.gsdd.samplereactivespringboot2.services
 
 import com.github.tomakehurst.wiremock.client.WireMock.aResponse
 import com.github.tomakehurst.wiremock.client.WireMock.matching
@@ -9,8 +9,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlMatching
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit.WireMockRule
-import com.xyzz.gsdd.samplespringboot2.models.Person
-import org.assertj.core.api.Assertions.assertThat
+import com.xyzz.gsdd.samplereactivespringboot2.models.Person
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 import org.springframework.test.context.junit4.SpringRunner
-
+import reactor.test.test
+import java.util.Objects.isNull
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
 class PersonRegistrationServiceTest {
+
     @Autowired
     private lateinit var personRegistrationService: PersonRegistrationService
 
@@ -44,11 +45,12 @@ class PersonRegistrationServiceTest {
                         """.trimMargin())
                 ))
 
-        val result = personRegistrationService.addPerson(person)
-
-        assertThat(result.firstName).isEqualTo(person.firstName)
-        assertThat(result.lastName).isEqualTo(person.lastName)
-        assertThat(result.id).isNotNull()
+        personRegistrationService.addPerson(person)
+                .test()
+                .assertNext {
+                    it.firstName.equals(person.firstName) && it.lastName.equals(person.lastName) && !isNull(it.id)
+                }
+                .verifyComplete()
 
         verify(postRequestedFor(urlMatching("/register"))
                 .withRequestBody(matchingJsonPath("firstName"))

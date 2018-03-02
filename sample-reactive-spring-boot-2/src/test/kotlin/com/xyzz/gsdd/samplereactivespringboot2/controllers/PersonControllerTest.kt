@@ -1,5 +1,6 @@
 package com.xyzz.gsdd.samplereactivespringboot2.controllers
 
+import com.xyzz.gsdd.samplereactivespringboot2.models.Person
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +31,7 @@ class PersonControllerTest {
     fun `should add a Person`() {
         val person = Person("firstName", "lastName")
 
-        val result = webClient.post().uri("/persons")
+        webClient.post().uri("/persons")
                 .accept(APPLICATION_JSON_UTF8)
                 .body(Mono.just(person), Person::class.java)
                 .exchange()
