@@ -16,7 +16,7 @@ class RegistrationController {
     @PostMapping
     @ResponseStatus(CREATED)
     fun register(@RequestBody person: Mono<Person>): Mono<Person> {
-        return person.delayElement(Duration.ofMillis(500)) // Mimic blocking nature
+        return person.delayElement(Duration.ofMillis(200)) // Mimic blocking nature
                 .map { it.copy(id = UUID.randomUUID()) }
     }
 

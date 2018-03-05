@@ -22,8 +22,6 @@ task loadTest(type: JavaExec) {
 
     main = "io.gatling.app.Gatling"
     args = ['-s', 'BootLoadSimulation',             // -- simulation
-//            '-sf', 'test/resources',                // --
-//            '-df', 'test/resources',
             '-rf', "${buildDir}/reports/gatling"    //-- results-folder
     ]
 }
