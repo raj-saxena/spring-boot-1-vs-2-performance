@@ -1,0 +1,10 @@
+{
+  "simulation": "BootLoadSimulation",
+  "simulationId": "bootloadsimulation",
+  "start": 1520241352996,
+  "description": "",
+  "scenarios": ["BootLoadSimulation"],
+  "assertions": [
+
+  ]
+}
