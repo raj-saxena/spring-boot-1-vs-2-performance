@@ -12,6 +12,16 @@ For testing, we have a rest endpoint `POST /persons` that accepts a json `Person
 ```
 mvn spring-boot:run
 ```
+
+### Start the backing service
+
+To run the benchmark, you'll need the backing service at the beginning.
+
+```bash
+cd person-registration-slow-service
+mvn spring-boot:run
+```
+
 ### Run tests with
 ```
 ./gradlew loadTest -D SIM_USERS=5000
